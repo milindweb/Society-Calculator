@@ -8,18 +8,17 @@
 </head>
 <body>
 <div id="app">
+  <header id="app-header">SOCIETY CALCULATOR</header>
   <nav id="topnav">
-    <button id="menu-toggle" onclick="toggleMenu()">☰</button>
-    <span class="nav-brand">Society Calculator</span>
     <ul id="nav-list">
-      <li class="nav-item active" data-tab="loan">Loan Sanction</li>
-      <li class="nav-item" data-tab="settlement">Final Settlement</li>
-      <li class="nav-item" data-tab="fd">Fixed Deposit</li>
-      <li class="nav-item" data-tab="calc">Calculator</li>
-      <li class="nav-item" data-tab="records">Saved Records</li>
-      <li class="nav-item" data-tab="settings">Settings</li>
-      <li class="nav-item" data-tab="about">About</li>
+      <li class="nav-item active" data-tab="loan">LOAN</li>
+      <li class="nav-item" data-tab="settlement">FS</li>
+      <li class="nav-item" data-tab="fd">FD</li>
+      <li class="nav-item" data-tab="calc">CAL</li>
+      <li class="nav-item" data-tab="records">DATA</li>
+      <li class="nav-item" data-tab="settings">SETTING</li>
     </ul>
+    <span class="nav-toggle" onclick="toggleMenu()">☰</span>
   </nav>
 
   <main id="content">
@@ -208,52 +207,64 @@
       <div id="settings-msg"></div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="tab-about" class="tab-content">
-      <h2>About Society Calculator</h2>
-      <p><strong>Society Calculator</strong> is a lightweight offline desktop application developed to simplify the day-to-day financial operations of Co-operative Credit Societies.</p>
-      <p>The software is designed to perform society-specific financial calculations quickly and accurately while maintaining a simple and user-friendly interface.</p>
-      <p>The application works completely offline and stores all records locally using a SQLite database. No internet connection or external server is required.</p>
-      <h3>Technology Used</h3>
-      <ul>
-        <li>Python 3</li>
-        <li>SQLite Database</li>
-        <li>HTML / CSS / JavaScript</li>
-        <li>PyWebView (Desktop)</li>
-        <li>PyInstaller (Windows & Linux)</li>
-      </ul>
-      <h3>Key Features</h3>
-      <ul>
-        <li>Offline Desktop Application</li>
-        <li>Loan Sanction Calculator</li>
-        <li>Final Settlement Calculator</li>
-        <li>Fixed Deposit Calculator</li>
-        <li>Simple Calculator</li>
-        <li>Automatic Amortization Schedule</li>
-        <li>Search Saved Records</li>
-        <li>Edit & Delete Saved Records</li>
-        <li>Fast SQLite Database</li>
-        <li>Lightweight and Easy to Use</li>
-      </ul>
-      <h3>Designed & Developed By</h3>
-      <p><strong style="cursor:pointer;color:#0f3460;text-decoration:underline" onclick="openWebsite()">Aarti Tech Services</strong></p>
-      <div class="contact-icons">
-        <span class="contact-icon" onclick="openEmail()" title="Email">📧</span>
-        <span class="contact-icon" onclick="openTelegram()" title="Telegram">💬</span>
-        <span class="contact-icon" onclick="openInstagram()" title="Instagram">📷</span>
-        <span class="contact-icon" onclick="openFacebook()" title="Facebook">📘</span>
-      </div>
-      <p><strong>Version:</strong> 1.0.0</p>
-      <p><strong>Build Type:</strong> Production Release</p>
-      <p><strong>Platform:</strong> Windows & Linux Desktop Application</p>
-      <h3>Disclaimer</h3>
-      <p>Society Calculator is provided as a financial calculation and record management tool for Co-operative Credit Societies. Users are responsible for verifying all results before processing any official financial transaction.</p>
-      <h3>Privacy Policy</h3>
-      <p>The application works entirely offline. All records are stored locally. The software does <strong>not</strong> collect personal information, track user activity, or send data over the internet.</p>
-      <p class="copyright">© 2026 Aarti Tech Services. All Rights Reserved.</p>
-    </section>
-
   </main>
+
+  <footer id="app-footer">
+    <div class="footer-about">
+      <div class="about-card">
+        <h3>About the Application</h3>
+        <p>Society Calculator is a lightweight offline desktop application designed to simplify the day-to-day financial operations of Co-operative Credit Societies. It works completely offline and stores all records locally using a SQLite database.</p>
+      </div>
+
+      <div class="about-card">
+        <h3>Key Features</h3>
+        <div class="feature-grid">
+          <div class="feat-item">Loan Sanction Calculator</div>
+          <div class="feat-item">Final Settlement Calculator</div>
+          <div class="feat-item">Fixed Deposit Calculator</div>
+          <div class="feat-item">Amortization Schedule</div>
+          <div class="feat-item">Search &amp; Filter Records</div>
+          <div class="feat-item">Edit &amp; Delete Records</div>
+          <div class="feat-item">Configurable Settings</div>
+          <div class="feat-item">100% Offline</div>
+        </div>
+      </div>
+
+      <div class="about-card">
+        <h3>Technology Stack</h3>
+        <ul>
+          <li>Python 3</li>
+          <li>SQLite</li>
+          <li>HTML / CSS / JS</li>
+          <li>PyWebView</li>
+          <li>PyInstaller</li>
+        </ul>
+      </div>
+
+      <div class="about-card dev-section">
+        <h3>Designed &amp; Developed By</h3>
+        <div class="dev-name" onclick="openWebsite()">Aarti Tech Services</div>
+        <div class="contact-icons">
+          <span class="contact-icon" onclick="openEmail()" title="Email">✉</span>
+          <span class="contact-icon" onclick="openTelegram()" title="Telegram">💬</span>
+          <span class="contact-icon" onclick="openInstagram()" title="Instagram">📷</span>
+          <span class="contact-icon" onclick="openFacebook()" title="Facebook">📘</span>
+        </div>
+      </div>
+
+      <div class="disclaimer-box">
+        <h3>Disclaimer</h3>
+        <p>Society Calculator is provided as a financial calculation and record management tool for Co-operative Credit Societies. Users are responsible for verifying all results before processing any official financial transaction.</p>
+      </div>
+
+      <div class="disclaimer-box">
+        <h3>Privacy Policy</h3>
+        <p>The application works entirely offline. All records are stored locally. The software does <strong>not</strong> collect personal information, track user activity, or send data over the internet.</p>
+      </div>
+    </div>
+
+    <div class="about-footer">&copy; 2026 Aarti Tech Services. All Rights Reserved.</div>
+  </footer>
 </div>
 
 <script src="js/app.js"></script>

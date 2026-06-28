@@ -1,4 +1,21 @@
-# Society Loan Sanction Calculator
+# Society Calculator
+
+**Version:** 1.0.0
+
+## Navigation Tabs
+
+| Tab Label | Full Name                |
+| --------- | ------------------------ |
+| LOAN      | Loan Sanction Calculator |
+| FS        | Final Settlement         |
+| FD        | Fixed Deposit            |
+| CAL       | Calculator               |
+| DATA      | Saved Records            |
+| SETTING   | Settings                 |
+
+---
+
+# Loan Sanction Calculator
 
 ## Member Details
 

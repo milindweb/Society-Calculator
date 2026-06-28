@@ -11,7 +11,7 @@ document.querySelectorAll('.nav-item').forEach(item => {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     item.classList.add('active');
     document.getElementById('tab-' + item.dataset.tab).classList.add('active');
-    if (window.innerWidth <= 800) toggleMenu();
+    if (window.innerWidth <= 500) toggleMenu();
   });
 });
 
