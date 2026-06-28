@@ -162,10 +162,11 @@ async function saveLoan() {
 }
 
 function clearLoan() {
-  document.querySelectorAll('#tab-loan input, #tab-loan select').forEach(el => el.value = '');
+  document.querySelectorAll('#tab-loan input:not([readonly]), #tab-loan select').forEach(el => el.value = '');
   document.getElementById('loan-result').innerHTML = '';
   document.getElementById('loan-cd-deduction').textContent = '0.00';
   document.getElementById('loan-share-deduction').textContent = '0.00';
+  loadSettings();
   window._loanData = null;
   _cdManualOverride = false;
 }
