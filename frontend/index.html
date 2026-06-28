@@ -207,13 +207,17 @@
       <div id="settings-msg"></div>
     </section>
 
-  </main>
+    <!-- ABOUT (hidden tab, opened via footer) -->
+    <section id="tab-about" class="tab-content">
+      <div class="about-hero">
+        <h2>Society Calculator</h2>
+        <p class="subtitle">Lightweight offline financial tool for Co-operative Credit Societies</p>
+        <span class="version-badge">v1.0.0 &middot; Production Release</span>
+      </div>
 
-  <footer id="app-footer">
-    <div class="footer-about">
       <div class="about-card">
         <h3>About the Application</h3>
-        <p>Society Calculator is a lightweight offline desktop application designed to simplify the day-to-day financial operations of Co-operative Credit Societies. It works completely offline and stores all records locally using a SQLite database.</p>
+        <p>Society Calculator is a lightweight offline desktop application designed to simplify the day-to-day financial operations of Co-operative Credit Societies. It performs society-specific financial calculations quickly and accurately while maintaining a simple and user-friendly interface. The application works completely offline and stores all records locally using a SQLite database. No internet connection or external server is required.</p>
       </div>
 
       <div class="about-card">
@@ -261,9 +265,12 @@
         <h3>Privacy Policy</h3>
         <p>The application works entirely offline. All records are stored locally. The software does <strong>not</strong> collect personal information, track user activity, or send data over the internet.</p>
       </div>
-    </div>
+    </section>
 
-    <div class="about-footer">&copy; 2026 Aarti Tech Services. All Rights Reserved.</div>
+  </main>
+
+  <footer id="app-footer">
+    <div class="about-footer" onclick="openAbout()">Aarti Tech Services</div>
   </footer>
 </div>
 

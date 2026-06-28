@@ -16,6 +16,15 @@ document.querySelectorAll('.nav-item').forEach(item => {
 });
 
 // -----------------------------------------------------------------------
+// ABOUT (opened from footer)
+// -----------------------------------------------------------------------
+function openAbout() {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-about').classList.add('active');
+}
+
+// -----------------------------------------------------------------------
 // SETTINGS LOAD
 // -----------------------------------------------------------------------
 async function loadSettings() {
