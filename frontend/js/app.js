@@ -12,7 +12,7 @@ document.querySelectorAll('.nav-item').forEach(item => {
     item.classList.add('active');
     document.getElementById('tab-' + item.dataset.tab).classList.add('active');
     if (window.innerWidth <= 500) toggleMenu();
-    if (item.dataset.tab === 'records') loadRecords();
+
   });
 });
 
@@ -297,11 +297,11 @@ function clearFD() {
 // -----------------------------------------------------------------------
 // SIMPLE CALCULATOR (3.4)
 // -----------------------------------------------------------------------
-let calcState = { current: '0', previous: '', op: null, reset: false };
+let calcState = { current: '0', previous: '', op: null, reset: false, expr: '' };
 const calcDisplay = document.getElementById('calc-display');
 
 function calcInput(val) {
-  if (val === 'C') { calcState = { current: '0', previous: '', op: null, reset: false }; updateDisplay(); return; }
+  if (val === 'C') { calcState = { current: '0', previous: '', op: null, reset: false, expr: '' }; updateDisplay(); return; }
   if (val === 'B') {
     calcState.current = calcState.current.length > 1 ? calcState.current.slice(0, -1) : '0';
     updateDisplay(); return;
@@ -317,13 +317,18 @@ function calcInput(val) {
       else if (calcState.op === '/') result = b !== 0 ? a / b : 0;
       else if (calcState.op === '%') result = a * b / 100;
       calcState.current = String(parseFloat(result.toFixed(10)));
+      const expr = calcState.expr + calcState.current;
       calcState.previous = '';
       calcState.op = null;
       calcState.reset = true;
+      calcState.expr = '';
+      try { window.pywebview.api.save_calc(JSON.stringify({ expression: expr, result: calcState.current })); } catch(e) {}
     }
     updateDisplay(); return;
   }
   if (['+','-','*','/','%'].includes(val)) {
+    const sym = { '+':' + ','-':' - ','*':' × ','/':' ÷ ','%':' % ' };
+    calcState.expr = calcState.current + sym[val];
     if (calcState.op && calcState.previous !== '') {
       const a = parseFloat(calcState.previous);
       const b = parseFloat(calcState.current);
@@ -357,58 +362,73 @@ function updateDisplay() {
 }
 
 // -----------------------------------------------------------------------
-// RECORDS
+// HISTORY (per-tab inline records)
 // -----------------------------------------------------------------------
-async function loadRecords() {
-  const type = document.getElementById('rec-type').value;
-  const query = document.getElementById('rec-search').value;
-  const dateFrom = document.getElementById('rec-date-from').value;
-  const dateTo = document.getElementById('rec-date-to').value;
-  const search = JSON.stringify({ query, date_from: dateFrom, date_to: dateTo });
+async function toggleHistory(type) {
+  const el = document.getElementById('history-' + type);
+  if (el.style.display !== 'none') { el.style.display = 'none'; return; }
+  el.innerHTML = '<p class="msg">Loading...</p>';
+  el.style.display = 'block';
   try {
     let rows = [];
-    if (type === 'settlement') rows = await window.pywebview.api.get_settlements(search);
-    else if (type === 'loan') rows = await window.pywebview.api.get_loans(search);
-    else if (type === 'fd') rows = await window.pywebview.api.get_fds(search);
-    renderRecords(type, rows);
-  } catch(e) { document.getElementById('records-list').innerHTML = '<div class="msg msg-error">Error loading records.</div>'; }
+    if (type === 'settlement') rows = await window.pywebview.api.get_settlements();
+    else if (type === 'loan') rows = await window.pywebview.api.get_loans();
+    else if (type === 'fd') rows = await window.pywebview.api.get_fds();
+    else if (type === 'calc') rows = await window.pywebview.api.get_calcs();
+    renderHistory(type, rows, el);
+  } catch(e) { el.innerHTML = '<div class="msg msg-error">Error loading history.</div>'; }
 }
 
-function renderRecords(type, rows) {
-  const el = document.getElementById('records-list');
+function renderHistory(type, rows, el) {
   if (!rows || rows.length === 0) { el.innerHTML = '<p>No records found.</p>'; return; }
-    let html = '<div class="table-wrap"><table class="records-table"><tr>';
+  let html = '<div class="table-wrap"><table class="records-table"><tr>';
   if (type === 'settlement') {
     html += '<th>Date</th><th>Name</th><th>Gen No</th><th>Total Deduction</th><th>Total Earning</th><th>Final Amount</th><th>Status</th><th>Actions</th>';
   } else if (type === 'loan') {
-    html += '<th>Date</th><th>Name</th><th>Gen No</th><th>Type</th><th>New Loan</th><th>Total Deduction</th><th>Amount In Hand</th><th>Total Interest</th><th>Total Repayment</th><th>Actions</th>';
+    html += '<th>Date</th><th>Name</th><th>Gen No</th><th>New Loan</th><th>Total Deduction</th><th>Amount In Hand</th><th>Total Interest</th><th>Actions</th>';
   } else if (type === 'fd') {
     html += '<th>Date</th><th>FD No</th><th>Name</th><th>Amount</th><th>Months</th><th>Rate</th><th>Total Interest</th><th>Total Amount</th><th>Actions</th>';
+  } else if (type === 'calc') {
+    html += '<th>Date</th><th>Expression</th><th>Result</th><th>Actions</th>';
   }
   html += '</tr>';
   rows.forEach(r => {
-    html += `<tr ondblclick="viewRecord('${type}',${r.id})" style="cursor:pointer">`;
+    html += `<tr>`;
     html += `<td>${r.created_at || ''}</td>`;
     if (type === 'settlement') {
       html += `<td>${esc(r.name)}</td><td>${esc(r.gen_no)}</td>`;
       html += `<td>₹ ${fmt(r.total_deduction)}</td><td>₹ ${fmt(r.total_earning)}</td>`;
       html += `<td>₹ ${fmt(r.final_amount)}</td><td>${r.status}</td>`;
-      html += `<td class="actions"><button class="btn btn-small btn-primary" onclick="event.stopPropagation();viewRecord('settlement',${r.id})">View</button> <button class="btn btn-small btn-danger" onclick="event.stopPropagation();deleteRecord('settlement',${r.id})">Del</button></td>`;
+      html += `<td class="actions"><button class="btn btn-small btn-primary" onclick="viewRecord('settlement',${r.id})">View</button> <button class="btn btn-small btn-danger" onclick="deleteHistoryRecord('settlement',${r.id})">Del</button></td>`;
     } else if (type === 'loan') {
       html += `<td>${esc(r.name)}</td><td>${esc(r.gen_no)}</td>`;
       html += `<td>₹ ${fmt(r.new_loan_amount)}</td><td>₹ ${fmt(r.total_deduction)}</td>`;
-      html += `<td>₹ ${fmt(r.amount_in_hand)}</td><td>₹ ${fmt(r.total_interest)}</td><td>₹ ${fmt(r.total_repayment)}</td>`;
-      html += `<td class="actions"><button class="btn btn-small btn-primary" onclick="event.stopPropagation();viewRecord('loan',${r.id})">View</button> <button class="btn btn-small btn-danger" onclick="event.stopPropagation();deleteRecord('loan',${r.id})">Del</button></td>`;
+      html += `<td>₹ ${fmt(r.amount_in_hand)}</td><td>₹ ${fmt(r.total_interest)}</td>`;
+      html += `<td class="actions"><button class="btn btn-small btn-primary" onclick="viewRecord('loan',${r.id})">View</button> <button class="btn btn-small btn-danger" onclick="deleteHistoryRecord('loan',${r.id})">Del</button></td>`;
     } else if (type === 'fd') {
       html += `<td>${esc(r.fd_no)}</td><td>${esc(r.name)}</td>`;
       html += `<td>₹ ${fmt(r.amount)}</td><td>${r.months}</td>`;
       html += `<td>${r.rate}%</td><td>₹ ${fmt(r.total_interest)}</td><td>₹ ${fmt(r.total_amount)}</td>`;
-      html += `<td class="actions"><button class="btn btn-small btn-primary" onclick="event.stopPropagation();viewRecord('fd',${r.id})">View</button> <button class="btn btn-small btn-danger" onclick="event.stopPropagation();deleteRecord('fd',${r.id})">Del</button></td>`;
+      html += `<td class="actions"><button class="btn btn-small btn-primary" onclick="viewRecord('fd',${r.id})">View</button> <button class="btn btn-small btn-danger" onclick="deleteHistoryRecord('fd',${r.id})">Del</button></td>`;
+    } else if (type === 'calc') {
+      html += `<td>${esc(r.expression)}</td><td><strong>${esc(r.result)}</strong></td>`;
+      html += `<td class="actions"><button class="btn btn-small btn-danger" onclick="deleteHistoryRecord('calc',${r.id})">Del</button></td>`;
     }
     html += '</tr>';
   });
   html += '</table></div>';
   el.innerHTML = html;
+}
+
+async function deleteHistoryRecord(type, id) {
+  if (!confirm('Delete this record?')) return;
+  try {
+    if (type === 'settlement') await window.pywebview.api.delete_settlement(id);
+    else if (type === 'loan') await window.pywebview.api.delete_loan(id);
+    else if (type === 'fd') await window.pywebview.api.delete_fd(id);
+    else if (type === 'calc') await window.pywebview.api.delete_calc(id);
+    toggleHistory(type);
+  } catch(e) { alert('Error deleting.'); }
 }
 
 async function viewRecord(type, id) {
@@ -496,16 +516,6 @@ function displayLoanResult(r) {
   html += '<button class="btn btn-small btn-primary" onclick="toggleSchedule()" style="margin-top:10px">Show Amortization Schedule</button>';
   html += '<div id="loan-schedule" style="display:none"></div>';
   document.getElementById('loan-result').innerHTML = html;
-}
-
-async function deleteRecord(type, id) {
-  if (!confirm('Delete this record?')) return;
-  try {
-    if (type === 'settlement') await window.pywebview.api.delete_settlement(id);
-    else if (type === 'loan') await window.pywebview.api.delete_loan(id);
-    else await window.pywebview.api.delete_fd(id);
-    loadRecords();
-  } catch(e) { alert('Error deleting.'); }
 }
 
 // -----------------------------------------------------------------------

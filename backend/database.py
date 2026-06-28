@@ -43,6 +43,12 @@ def init_db():
         CREATE TABLE IF NOT EXISTS settings (
             key TEXT PRIMARY KEY, value TEXT
         );
+        CREATE TABLE IF NOT EXISTS calc_results (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            expression TEXT,
+            result TEXT,
+            created_at TEXT DEFAULT (datetime('now','localtime'))
+        );
     """)
     defaults = {
         "ll_max_amount": "400000",

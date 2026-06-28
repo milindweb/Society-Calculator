@@ -15,7 +15,6 @@
       <li class="nav-item" data-tab="settlement">FS</li>
       <li class="nav-item" data-tab="fd">FD</li>
       <li class="nav-item" data-tab="calc">CAL</li>
-      <li class="nav-item" data-tab="records">DATA</li>
       <li class="nav-item" data-tab="settings">SETTING</li>
     </ul>
     <span class="nav-toggle" onclick="toggleMenu()">☰</span>
@@ -51,8 +50,10 @@
         <button class="btn btn-primary" onclick="calculateLoan()">Calculate</button>
         <button class="btn btn-success" onclick="saveLoan()">Save</button>
         <button class="btn btn-secondary" onclick="clearLoan()">Clear</button>
+        <button class="btn btn-info" onclick="toggleHistory('loan')">History</button>
       </div>
       <div id="loan-result"></div>
+      <div id="history-loan" class="history-section" style="display:none"></div>
     </section>
 
     <!-- FINAL SETTLEMENT -->
@@ -84,8 +85,10 @@
         <button class="btn btn-primary" onclick="calculateSettlement()">Calculate</button>
         <button class="btn btn-success" onclick="saveSettlement()">Save</button>
         <button class="btn btn-secondary" onclick="clearSettlement()">Clear</button>
+        <button class="btn btn-info" onclick="toggleHistory('settlement')">History</button>
       </div>
       <div id="sett-result"></div>
+      <div id="history-settlement" class="history-section" style="display:none"></div>
     </section>
 
     <!-- FD CALCULATOR -->
@@ -107,8 +110,10 @@
         <button class="btn btn-primary" onclick="calculateFD()">Calculate</button>
         <button class="btn btn-success" onclick="saveFD()">Save</button>
         <button class="btn btn-secondary" onclick="clearFD()">Clear</button>
+        <button class="btn btn-info" onclick="toggleHistory('fd')">History</button>
       </div>
       <div id="fd-result"></div>
+      <div id="history-fd" class="history-section" style="display:none"></div>
       <h3>Default Rate Slabs</h3>
       <div class="table-wrap"><table class="rate-table">
         <tr><th>Tenure</th><th>Rate</th></tr>
@@ -144,39 +149,10 @@
         <button class="calc-btn calc-num" onclick="calcInput('.')">.</button>
         <button class="calc-btn calc-eq" onclick="calcInput('=')">=</button>
       </div>
-    </section>
-
-    <!-- SAVED RECORDS -->
-    <section id="tab-records" class="tab-content">
-      <h2>Saved Records</h2>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Search Type</label>
-          <select id="rec-type" onchange="loadRecords()">
-            <option value="settlement">Final Settlement</option>
-            <option value="loan">Loan Sanction</option>
-            <option value="fd">Fixed Deposit</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Search (Name or Gen No)</label>
-          <input id="rec-search" placeholder="Type to search..." oninput="loadRecords()">
-        </div>
+      <div class="btn-group">
+        <button class="btn btn-info" onclick="toggleHistory('calc')">History</button>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>From Date</label>
-          <input id="rec-date-from" type="date" onchange="loadRecords()">
-        </div>
-        <div class="form-group">
-          <label>To Date</label>
-          <input id="rec-date-to" type="date" onchange="loadRecords()">
-        </div>
-        <div class="form-group" style="display:flex; align-items:flex-end;">
-          <button class="btn btn-secondary btn-small" onclick="loadRecords()">Refresh</button>
-        </div>
-      </div>
-      <div id="records-list"></div>
+      <div id="history-calc" class="history-section" style="display:none"></div>
     </section>
 
     <!-- SETTINGS -->

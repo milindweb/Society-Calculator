@@ -376,6 +376,36 @@ class Api:
         conn.close()
         return {"ok": True}
 
+    # --- CALCULATOR HISTORY ---
+
+    def save_calc(self, data_json):
+        d = json.loads(data_json)
+        conn = get_connection()
+        c = conn.cursor()
+        c.execute("INSERT INTO calc_results (expression, result) VALUES (?, ?)",
+                  (d.get("expression", ""), d.get("result", "")))
+        conn.commit()
+        rid = c.lastrowid
+        conn.close()
+        return {"id": rid}
+
+    def get_calcs(self, search_json=""):
+        conn = get_connection()
+        conn.row_factory = dict_factory
+        c = conn.cursor()
+        c.execute("SELECT * FROM calc_results ORDER BY created_at DESC")
+        rows = c.fetchall()
+        conn.close()
+        return rows
+
+    def delete_calc(self, rid):
+        conn = get_connection()
+        c = conn.cursor()
+        c.execute("DELETE FROM calc_results WHERE id=?", (rid,))
+        conn.commit()
+        conn.close()
+        return {"ok": True}
+
     def open_url(self, url):
         import webbrowser, threading
         def _open():
