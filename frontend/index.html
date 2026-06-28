@@ -34,7 +34,7 @@
         <div class="form-group"><label>Interest Rate (%)</label><input id="loan-rate" type="number" step="0.01"></div>
       </div>
       <h3>Member Details</h3>
-      <table class="input-table">
+      <div class="table-wrap"><table class="input-table">
         <tr><th>Particular</th><th>Present Amount (₹)</th><th>Required Amount (₹)</th><th>Deduction (₹)</th></tr>
         <tr><td>CD</td><td><input id="loan-cd-present" type="number" step="0.01"></td><td><input id="loan-cd-required" type="number" step="0.01"></td><td id="loan-cd-deduction">0.00</td></tr>
         <tr><td>Share</td><td><input id="loan-share-present" type="number" step="0.01"></td><td><input id="loan-share-required" type="number" step="0.01"></td><td id="loan-share-deduction">0.00</td></tr>
@@ -42,7 +42,7 @@
         <tr><td>Old Short Loan</td><td><input id="loan-old-sl" type="number" step="0.01"></td><td>—</td><td>—</td></tr>
         <tr><td>Other Deduction</td><td><input id="loan-other-ded" type="number" step="0.01"></td><td>—</td><td>—</td></tr>
         <tr><td>New Loan Amount</td><td><input id="loan-new-amount" type="number" step="0.01"></td><td>—</td><td>—</td></tr>
-      </table>
+      </table></div>
       <div class="form-row">
         <div class="form-group"><label>Principal Recovery Per EMI (₹)</label><input id="loan-principal-rec" type="number" step="0.01"></div>
         <div class="form-group"><label>Remark</label><input id="loan-remark"></div>
@@ -110,13 +110,13 @@
       </div>
       <div id="fd-result"></div>
       <h3>Default Rate Slabs</h3>
-      <table class="rate-table">
+      <div class="table-wrap"><table class="rate-table">
         <tr><th>Tenure</th><th>Rate</th></tr>
         <tr><td>1–360 Days</td><td id="rate-1-360">4.0%</td></tr>
         <tr><td>12 Months (1 Year)</td><td id="rate-12">8.0%</td></tr>
         <tr><td>24 Months (2 Years)</td><td id="rate-24">8.5%</td></tr>
         <tr><td>36 Months (3 Years)</td><td id="rate-36">9.5%</td></tr>
-      </table>
+      </table></div>
     </section>
 
     <!-- SIMPLE CALCULATOR -->

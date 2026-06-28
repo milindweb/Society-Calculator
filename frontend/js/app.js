@@ -130,13 +130,13 @@ function toggleSchedule() {
   if (div.style.display === 'none') {
     const r = window._loanData;
     if (!r || !r.schedule || r.schedule.length === 0) return;
-    let html = '<h3>Amortization Schedule</h3>';
+    let html = '<h3>Amortization Schedule</h3><div class="table-wrap">';
     html += '<table class="schedule-table"><tr><th>#</th><th>Principal</th><th>Interest</th><th>Total EMI</th><th>Balance</th><th>Remark</th></tr>';
     r.schedule.forEach(s => {
       const cls = s.remark === 'Loan Closed' ? ' class="closed"' : '';
       html += `<tr${cls}><td>${s.emi_no}</td><td>₹ ${fmt(s.principal)}</td><td>₹ ${fmt(s.interest)}</td><td>₹ ${fmt(s.total_emi)}</td><td>₹ ${fmt(s.balance)}</td><td>${s.remark}</td></tr>`;
     });
-    html += '</table>';
+    html += '</table></div>';
     div.innerHTML = html;
     div.style.display = 'block';
     this.textContent = 'Hide Amortization Schedule';
@@ -376,7 +376,7 @@ async function loadRecords() {
 function renderRecords(type, rows) {
   const el = document.getElementById('records-list');
   if (!rows || rows.length === 0) { el.innerHTML = '<p>No records found.</p>'; return; }
-  let html = '<table class="records-table"><tr>';
+    let html = '<div class="table-wrap"><table class="records-table"><tr>';
   if (type === 'settlement') {
     html += '<th>Date</th><th>Name</th><th>Gen No</th><th>Total Deduction</th><th>Total Earning</th><th>Final Amount</th><th>Status</th><th>Actions</th>';
   } else if (type === 'loan') {
@@ -406,7 +406,7 @@ function renderRecords(type, rows) {
     }
     html += '</tr>';
   });
-  html += '</table>';
+  html += '</table></div>';
   el.innerHTML = html;
 }
 
