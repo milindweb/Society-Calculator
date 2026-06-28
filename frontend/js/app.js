@@ -362,6 +362,30 @@ function updateDisplay() {
 }
 
 // -----------------------------------------------------------------------
+// SETTINGS HISTORY
+// -----------------------------------------------------------------------
+async function toggleSettingsHistory() {
+  const el = document.getElementById('history-settings');
+  if (el.style.display !== 'none') { el.style.display = 'none'; return; }
+  el.style.display = 'block';
+  try {
+    const s = await window.pywebview.api.get_settings();
+    let html = '<div class="result-box">';
+    html += `<div class="row"><span class="label">Interest Rate</span><span class="value">${s.interest_rate || '11.25'}%</span></div>`;
+    html += `<div class="row"><span class="label">Max Long Loan</span><span class="value">₹ ${fmt(s.ll_max_amount || 400000)}</span></div>`;
+    html += `<div class="row"><span class="label">Max Short Loan</span><span class="value">₹ ${fmt(s.sl_max_amount || 50000)}</span></div>`;
+    html += `<div class="row"><span class="label">Share Requirement</span><span class="value">₹ ${fmt(s.share_requirement || 8000)}</span></div>`;
+    html += `<div class="row"><span class="label">CD Percentage</span><span class="value">${s.cd_percentage || '20'}%</span></div>`;
+    html += `<div class="row"><span class="label">FD Rate (1-360D)</span><span class="value">${s.fd_rate_1_360 || '4.0'}%</span></div>`;
+    html += `<div class="row"><span class="label">FD Rate (12M)</span><span class="value">${s.fd_rate_12 || '8.0'}%</span></div>`;
+    html += `<div class="row"><span class="label">FD Rate (24M)</span><span class="value">${s.fd_rate_24 || '8.5'}%</span></div>`;
+    html += `<div class="row"><span class="label">FD Rate (36M)</span><span class="value">${s.fd_rate_36 || '9.5'}%</span></div>`;
+    html += '</div>';
+    el.innerHTML = html;
+  } catch(e) { el.innerHTML = '<div class="msg msg-error">Error loading settings.</div>'; }
+}
+
+// -----------------------------------------------------------------------
 // HISTORY (per-tab inline records)
 // -----------------------------------------------------------------------
 async function toggleHistory(type) {

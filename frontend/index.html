@@ -179,8 +179,12 @@
         <div class="form-group"><label>24 Months (%)</label><input id="set-fd-24" type="number" step="0.01"></div>
         <div class="form-group"><label>36 Months (%)</label><input id="set-fd-36" type="number" step="0.01"></div>
       </div>
-      <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+        <button class="btn btn-info" onclick="toggleSettingsHistory()">View Settings</button>
+      </div>
       <div id="settings-msg"></div>
+      <div id="history-settings" class="history-section" style="display:none"></div>
     </section>
 
     <!-- ABOUT (hidden tab, opened via footer) -->
