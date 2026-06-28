@@ -106,10 +106,9 @@ input:focus, select:focus { border-color: #0f3460; box-shadow: 0 0 0 2px rgba(15
 
 /* Footer / About */
 #app-footer { padding: 0; border-top: 1px solid #e0e0e0; }
-.about-footer { text-align: center; padding: 12px 18px; font-size: 12px; font-weight: 700; color: #0f3460; cursor: pointer; letter-spacing: 0.5px; transition: all 0.2s; user-select: none; }
-.about-footer:hover { background: #e8f0fe; color: #e94560; }
-.footer-tagline { font-size: 10px; font-weight: 400; color: #999; }
-.about-footer:hover .footer-tagline { color: #bbb; }
+.about-footer { text-align: center; padding: 12px 18px; font-size: 11px; color: #666; letter-spacing: 0.3px; user-select: none; }
+.footer-link { color: #0f3460; font-weight: 700; cursor: pointer; transition: color 0.2s; }
+.footer-link:hover { color: #e94560; text-decoration: underline; }
 
 /* About Tab (hidden, opened via footer) */
 #tab-about { max-width: 640px; margin: 0 auto; }
