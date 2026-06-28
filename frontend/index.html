@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Society Calculator</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <nav id="topnav">
+    <button id="menu-toggle" onclick="toggleMenu()">☰</button>
+    <span class="nav-brand">Society Calculator</span>
+    <ul id="nav-list">
+      <li class="nav-item active" data-tab="loan">Loan Sanction</li>
+      <li class="nav-item" data-tab="settlement">Final Settlement</li>
+      <li class="nav-item" data-tab="fd">Fixed Deposit</li>
+      <li class="nav-item" data-tab="calc">Calculator</li>
+      <li class="nav-item" data-tab="records">Saved Records</li>
+      <li class="nav-item" data-tab="settings">Settings</li>
+      <li class="nav-item" data-tab="about">About</li>
+    </ul>
+  </nav>
+
+  <main id="content">
+
+    <!-- LOAN SANCTION -->
+    <section id="tab-loan" class="tab-content active">
+      <h2>Loan Sanction Calculator</h2>
+      <div class="form-row">
+        <div class="form-group"><label>Name</label><input id="loan-name"></div>
+        <div class="form-group"><label>Generation No.</label><input id="loan-gen"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Interest Rate (%)</label><input id="loan-rate" type="number" step="0.01"></div>
+      </div>
+      <h3>Member Details</h3>
+      <table class="input-table">
+        <tr><th>Particular</th><th>Present Amount (₹)</th><th>Required Amount (₹)</th><th>Deduction (₹)</th></tr>
+        <tr><td>CD</td><td><input id="loan-cd-present" type="number" step="0.01"></td><td><input id="loan-cd-required" type="number" step="0.01"></td><td id="loan-cd-deduction">0.00</td></tr>
+        <tr><td>Share</td><td><input id="loan-share-present" type="number" step="0.01"></td><td><input id="loan-share-required" type="number" step="0.01"></td><td id="loan-share-deduction">0.00</td></tr>
+        <tr><td>Old Long Loan</td><td><input id="loan-old-ll" type="number" step="0.01"></td><td>—</td><td>—</td></tr>
+        <tr><td>Old Short Loan</td><td><input id="loan-old-sl" type="number" step="0.01"></td><td>—</td><td>—</td></tr>
+        <tr><td>Other Deduction</td><td><input id="loan-other-ded" type="number" step="0.01"></td><td>—</td><td>—</td></tr>
+        <tr><td>New Loan Amount</td><td><input id="loan-new-amount" type="number" step="0.01"></td><td>—</td><td>—</td></tr>
+      </table>
+      <div class="form-row">
+        <div class="form-group"><label>Principal Recovery Per EMI (₹)</label><input id="loan-principal-rec" type="number" step="0.01"></div>
+        <div class="form-group"><label>Remark</label><input id="loan-remark"></div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="calculateLoan()">Calculate</button>
+        <button class="btn btn-success" onclick="saveLoan()">Save</button>
+        <button class="btn btn-secondary" onclick="clearLoan()">Clear</button>
+      </div>
+      <div id="loan-result"></div>
+    </section>
+
+    <!-- FINAL SETTLEMENT -->
+    <section id="tab-settlement" class="tab-content">
+      <h2>Final Settlement Calculator</h2>
+      <div class="form-row">
+        <div class="form-group"><label>Name</label><input id="sett-name"></div>
+        <div class="form-group"><label>Generation No.</label><input id="sett-gen"></div>
+      </div>
+      <div class="ded-earn-grid">
+        <div>
+          <h3>Deductions</h3>
+          <div class="form-group"><label>Short Loan</label><input id="sett-sl" type="number" step="0.01"></div>
+          <div class="form-group"><label>Long Loan</label><input id="sett-ll" type="number" step="0.01"></div>
+          <div class="form-group"><label>Long Loan Interest</label><input id="sett-lli" type="number" step="0.01"></div>
+          <div class="form-group"><label>Short Loan Interest</label><input id="sett-sli" type="number" step="0.01"></div>
+          <div class="form-group"><label>Other Deduction</label><input id="sett-od" type="number" step="0.01"></div>
+        </div>
+        <div>
+          <h3>Earnings</h3>
+          <div class="form-group"><label>CD</label><input id="sett-cd" type="number" step="0.01"></div>
+          <div class="form-group"><label>Share</label><input id="sett-share" type="number" step="0.01"></div>
+          <div class="form-group"><label>DCRB</label><input id="sett-dcrb" type="number" step="0.01"></div>
+          <div class="form-group"><label>Other Earning</label><input id="sett-oe" type="number" step="0.01"></div>
+        </div>
+      </div>
+      <div class="form-group"><label>Remark</label><input id="sett-remark"></div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="calculateSettlement()">Calculate</button>
+        <button class="btn btn-success" onclick="saveSettlement()">Save</button>
+        <button class="btn btn-secondary" onclick="clearSettlement()">Clear</button>
+      </div>
+      <div id="sett-result"></div>
+    </section>
+
+    <!-- FD CALCULATOR -->
+    <section id="tab-fd" class="tab-content">
+      <h2>Fixed Deposit Calculator</h2>
+      <div class="form-row">
+        <div class="form-group"><label>FD No.</label><input id="fd-no"></div>
+        <div class="form-group"><label>Name</label><input id="fd-name"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>FD Amount (₹)</label><input id="fd-amount" type="number" step="0.01"></div>
+        <div class="form-group"><label>Duration (Months)</label><input id="fd-months" type="number" oninput="suggestFDRate()"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Interest Rate (%)</label><input id="fd-rate" type="number" step="0.01"></div>
+        <div class="form-group"><label>Remark</label><input id="fd-remark"></div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="calculateFD()">Calculate</button>
+        <button class="btn btn-success" onclick="saveFD()">Save</button>
+        <button class="btn btn-secondary" onclick="clearFD()">Clear</button>
+      </div>
+      <div id="fd-result"></div>
+      <h3>Default Rate Slabs</h3>
+      <table class="rate-table">
+        <tr><th>Tenure</th><th>Rate</th></tr>
+        <tr><td>1–360 Days</td><td id="rate-1-360">4.0%</td></tr>
+        <tr><td>12 Months (1 Year)</td><td id="rate-12">8.0%</td></tr>
+        <tr><td>24 Months (2 Years)</td><td id="rate-24">8.5%</td></tr>
+        <tr><td>36 Months (3 Years)</td><td id="rate-36">9.5%</td></tr>
+      </table>
+    </section>
+
+    <!-- SIMPLE CALCULATOR -->
+    <section id="tab-calc" class="tab-content">
+      <h2>Calculator</h2>
+      <div id="calc-display">0</div>
+      <div id="calc-buttons">
+        <button class="calc-btn calc-op" onclick="calcInput('C')">C</button>
+        <button class="calc-btn calc-op" onclick="calcInput('B')">⌫</button>
+        <button class="calc-btn calc-op" onclick="calcInput('%')">%</button>
+        <button class="calc-btn calc-op" onclick="calcInput('/')">÷</button>
+        <button class="calc-btn calc-num" onclick="calcInput('7')">7</button>
+        <button class="calc-btn calc-num" onclick="calcInput('8')">8</button>
+        <button class="calc-btn calc-num" onclick="calcInput('9')">9</button>
+        <button class="calc-btn calc-op" onclick="calcInput('*')">×</button>
+        <button class="calc-btn calc-num" onclick="calcInput('4')">4</button>
+        <button class="calc-btn calc-num" onclick="calcInput('5')">5</button>
+        <button class="calc-btn calc-num" onclick="calcInput('6')">6</button>
+        <button class="calc-btn calc-op" onclick="calcInput('-')">−</button>
+        <button class="calc-btn calc-num" onclick="calcInput('1')">1</button>
+        <button class="calc-btn calc-num" onclick="calcInput('2')">2</button>
+        <button class="calc-btn calc-num" onclick="calcInput('3')">3</button>
+        <button class="calc-btn calc-op" onclick="calcInput('+')">+</button>
+        <button class="calc-btn calc-num zero" onclick="calcInput('0')">0</button>
+        <button class="calc-btn calc-num" onclick="calcInput('.')">.</button>
+        <button class="calc-btn calc-eq" onclick="calcInput('=')">=</button>
+      </div>
+    </section>
+
+    <!-- SAVED RECORDS -->
+    <section id="tab-records" class="tab-content">
+      <h2>Saved Records</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Search Type</label>
+          <select id="rec-type" onchange="loadRecords()">
+            <option value="settlement">Final Settlement</option>
+            <option value="loan">Loan Sanction</option>
+            <option value="fd">Fixed Deposit</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Search (Name or Gen No)</label>
+          <input id="rec-search" placeholder="Type to search..." oninput="loadRecords()">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>From Date</label>
+          <input id="rec-date-from" type="date" onchange="loadRecords()">
+        </div>
+        <div class="form-group">
+          <label>To Date</label>
+          <input id="rec-date-to" type="date" onchange="loadRecords()">
+        </div>
+        <div class="form-group" style="display:flex; align-items:flex-end;">
+          <button class="btn btn-secondary btn-small" onclick="loadRecords()">Refresh</button>
+        </div>
+      </div>
+      <div id="records-list"></div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="tab-settings" class="tab-content">
+      <h2>Settings</h2>
+      <div class="form-row">
+        <div class="form-group"><label>Interest Rate (%)</label><input id="set-rate" type="number" step="0.01"></div>
+        <div class="form-group"><label>Max Long Loan Amount (₹)</label><input id="set-ll-max" type="number"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Max Short Loan Amount (₹)</label><input id="set-sl-max" type="number"></div>
+        <div class="form-group"><label>Share Requirement (₹)</label><input id="set-share" type="number"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>CD Percentage (%)</label><input id="set-cd-pct" type="number" step="0.01"></div>
+        <div class="form-group"></div>
+      </div>
+      <h3>FD Rate Slabs</h3>
+      <div class="form-row">
+        <div class="form-group"><label>1–360 Days (%)</label><input id="set-fd-1" type="number" step="0.01"></div>
+        <div class="form-group"><label>12 Months (%)</label><input id="set-fd-12" type="number" step="0.01"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>24 Months (%)</label><input id="set-fd-24" type="number" step="0.01"></div>
+        <div class="form-group"><label>36 Months (%)</label><input id="set-fd-36" type="number" step="0.01"></div>
+      </div>
+      <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+      <div id="settings-msg"></div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="tab-about" class="tab-content">
+      <h2>About Society Calculator</h2>
+      <p><strong>Society Calculator</strong> is a lightweight offline desktop application developed to simplify the day-to-day financial operations of Co-operative Credit Societies.</p>
+      <p>The software is designed to perform society-specific financial calculations quickly and accurately while maintaining a simple and user-friendly interface.</p>
+      <p>The application works completely offline and stores all records locally using a SQLite database. No internet connection or external server is required.</p>
+      <h3>Technology Used</h3>
+      <ul>
+        <li>Python 3</li>
+        <li>SQLite Database</li>
+        <li>HTML / CSS / JavaScript</li>
+        <li>PyWebView (Desktop)</li>
+        <li>PyInstaller (Windows & Linux)</li>
+      </ul>
+      <h3>Key Features</h3>
+      <ul>
+        <li>Offline Desktop Application</li>
+        <li>Loan Sanction Calculator</li>
+        <li>Final Settlement Calculator</li>
+        <li>Fixed Deposit Calculator</li>
+        <li>Simple Calculator</li>
+        <li>Automatic Amortization Schedule</li>
+        <li>Search Saved Records</li>
+        <li>Edit & Delete Saved Records</li>
+        <li>Fast SQLite Database</li>
+        <li>Lightweight and Easy to Use</li>
+      </ul>
+      <h3>Designed & Developed By</h3>
+      <p><strong style="cursor:pointer;color:#0f3460;text-decoration:underline" onclick="openWebsite()">Aarti Tech Services</strong></p>
+      <div class="contact-icons">
+        <span class="contact-icon" onclick="openEmail()" title="Email">📧</span>
+        <span class="contact-icon" onclick="openTelegram()" title="Telegram">💬</span>
+        <span class="contact-icon" onclick="openInstagram()" title="Instagram">📷</span>
+        <span class="contact-icon" onclick="openFacebook()" title="Facebook">📘</span>
+      </div>
+      <p><strong>Version:</strong> 1.0.0</p>
+      <p><strong>Build Type:</strong> Production Release</p>
+      <p><strong>Platform:</strong> Windows & Linux Desktop Application</p>
+      <h3>Disclaimer</h3>
+      <p>Society Calculator is provided as a financial calculation and record management tool for Co-operative Credit Societies. Users are responsible for verifying all results before processing any official financial transaction.</p>
+      <h3>Privacy Policy</h3>
+      <p>The application works entirely offline. All records are stored locally. The software does <strong>not</strong> collect personal information, track user activity, or send data over the internet.</p>
+      <p class="copyright">© 2026 Aarti Tech Services. All Rights Reserved.</p>
+    </section>
+
+  </main>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
