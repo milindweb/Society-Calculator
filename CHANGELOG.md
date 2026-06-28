@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.1.0 (2026-06-28)
+
+### Added
+- Per-tab History button for LOAN, FS, FD, CAL, and SETTING
+- Calculator history saves expressions and results
+- View Settings button shows saved values in SETTING tab
+- Desktop launcher shortcut for Ubuntu
+- Ubuntu app menu integration
+
+### Changed
+- Removed separate DATA tab — history moved inline per calculator
+- Share Required field defaults from Settings (₹8,000)
+- Full mobile responsive with touch-friendly inputs and buttons
+- All tables scrollable horizontally on small screens
+- Hamburger menu with bigger touch targets
+
 ## v1.0.0 (2026-06-28)
 
 ### Added
