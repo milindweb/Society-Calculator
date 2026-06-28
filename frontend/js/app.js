@@ -12,6 +12,7 @@ document.querySelectorAll('.nav-item').forEach(item => {
     item.classList.add('active');
     document.getElementById('tab-' + item.dataset.tab).classList.add('active');
     if (window.innerWidth <= 500) toggleMenu();
+    if (item.dataset.tab === 'records') loadRecords();
   });
 });
 
