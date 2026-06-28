@@ -135,7 +135,12 @@ input:focus, select:focus { border-color: #0f3460; box-shadow: 0 0 0 2px rgba(15
 .dev-section .dev-name:hover { color: #e94560; text-decoration: underline; }
 .contact-icons { display: flex; justify-content: center; gap: 12px; margin: 10px 0; }
 .contact-icon { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: #f0f2f5; border-radius: 50%; cursor: pointer; font-size: 16px; transition: all 0.2s; border: 1px solid #e0e0e0; }
-.contact-icon:hover { background: #0f3460; border-color: #0f3460; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(15,52,96,0.2); }
+.contact-icon svg { width: 18px; height: 18px; display: block; }
+.contact-icon.email:hover { background: #ea4335; border-color: #ea4335; }
+.contact-icon.telegram:hover { background: #0088cc; border-color: #0088cc; }
+.contact-icon.instagram:hover { background: #dd2a7b; border-color: #dd2a7b; }
+.contact-icon.facebook:hover { background: #1877F2; border-color: #1877F2; }
+.contact-icon:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
 .disclaimer-box { background: #fff9e6; border: 1px solid #f0dca0; border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; }
 .disclaimer-box h3 { font-size: 12px; margin: 0 0 4px; color: #8a6d1a; border: none; padding: 0; }
@@ -171,6 +176,7 @@ input:focus, select:focus { border-color: #0f3460; box-shadow: 0 0 0 2px rgba(15
   .result-box .row { font-size: 11px; }
   .result-box .row.total { font-size: 13px; }
   .feature-grid { grid-template-columns: 1fr; }
+  .ded-earn-grid { gap: 10px; }
 }
 
 /* Mobile ≤767px */
